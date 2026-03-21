@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h2">Mascotas</h1>
+    <a href="/pets/create" class="btn btn-primary">+ Nueva Mascota</a>
+</div>
+
+<div class="card">
+    <div class="card-body p-0">
+        <% if (pets.length === 0) { %>
+            <div class="text-center py-5">
+                <p class="text-muted mb-3">No hay mascotas registradas.</p>
+                <a href="/pets/create" class="btn btn-primary">Registrar primera mascota</a>
+            </div>
+        <% } else { %>
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Especie</th>
+                        <th>Raza</th>
+                        <th>Dueño</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% pets.forEach(p => { %>
+                        <tr>
+                            <td class="text-muted"><%= p.id %></td>
+                            <td><strong><%= p.name %></strong></td>
+                            <td><span class="badge bg-light text-dark"><%= p.species %></span></td>
+                            <td><%= p.breed || '—' %></td>
+                            <td>
+                                <span class="text-primary">👤 <%= p.owner_name %></span>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+</div>

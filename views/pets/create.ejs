@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+        <div class="card">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">Registrar Mascota</h2>
+
+                <% if (error) { %>
+                    <div class="alert alert-danger mb-3"><%= error %></div>
+                <% } %>
+
+                <% if (owners.length === 0) { %>
+                    <div class="alert alert-warning">
+                        No hay dueños registrados. 
+                        <a href="/owners/create">Registra un dueño primero</a>.
+                    </div>
+                <% } else { %>
+                    <form action="/pets/create" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre de la mascota <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" required
+                                   placeholder="Ej: Toby">
+                        </div>
+                        <div class="mb-3">
+                            <label for="species" class="form-label">Especie</label>
+                            <select class="form-control" id="species" name="species">
+                                <option value="Perro">Perro</option>
+                                <option value="Gato">Gato</option>
+                                <option value="Ave">Ave</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="breed" class="form-label">Raza</label>
+                            <input type="text" class="form-control" id="breed" name="breed"
+                                   placeholder="Ej: Labrador">
+                        </div>
+                        <!-- Criterio 2: el dueño es obligatorio y debe existir en la BD -->
+                        <div class="mb-4">
+                            <label for="owner_id" class="form-label">Dueño <span class="text-danger">*</span></label>
+                            <select class="form-control" id="owner_id" name="owner_id" required>
+                                <option value="">Seleccione un dueño...</option>
+                                <% owners.forEach(o => { %>
+                                    <option value="<%= o.id %>"><%= o.name %></option>
+                                <% }) %>
+                            </select>
+                            <small class="form-text text-muted">
+                                Si el dueño no aparece, 
+                                <a href="/owners/create" target="_blank">regístralo aquí</a>.
+                            </small>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar Mascota</button>
+                            <a href="/pets" class="btn btn-link text-muted">Cancelar</a>
+                        </div>
+                    </form>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

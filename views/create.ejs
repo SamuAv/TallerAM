@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">Agendar Cita</h2>
+                <form action="/create" method="POST">
+                    <!-- Mascota (reemplaza los campos libres de pet_name y owner_name) -->
+                    <div class="mb-3">
+                        <label for="pet_id" class="form-label">Mascota <span class="text-danger">*</span></label>
+                        <% if (pets.length === 0) { %>
+                            <div class="alert alert-warning p-2">
+                                No hay mascotas registradas. 
+                                <a href="/pets/create">Registra una mascota primero</a>.
+                            </div>
+                        <% } else { %>
+                            <select class="form-control" id="pet_id" name="pet_id" required>
+                                <option value="">Seleccione una mascota...</option>
+                                <% pets.forEach(p => { %>
+                                    <option value="<%= p.id %>">
+                                        <%= p.pet_name %> — Dueño: <%= p.owner_name %>
+                                    </option>
+                                <% }) %>
+                            </select>
+                        <% } %>
+                    </div>
+                    <div class="mb-3">
+                        <label for="service" class="form-label">Servicio</label>
+                        <select class="form-control" id="service" name="service" required>
+                            <option value="">Seleccione un servicio...</option>
+                            <option value="Baño y Perfume">Baño y Perfume</option>
+                            <option value="Corte de Pelo">Corte de Pelo</option>
+                            <option value="Limpieza de Oídos">Limpieza de Oídos</option>
+                            <option value="Corte de Uñas">Corte de Uñas</option>
+                            <option value="Spa Completo">Spa Completo</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="appointment_date" class="form-label">Fecha y Hora</label>
+                        <input type="datetime-local" class="form-control" id="appointment_date"
+                               name="appointment_date" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" <%= pets.length === 0 ? 'disabled' : '' %>>
+                            Programar Cita
+                        </button>
+                        <a href="/" class="btn btn-link text-muted">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
