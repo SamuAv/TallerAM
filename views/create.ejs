@@ -24,7 +24,7 @@
                         <% } %>
                     </div>
                     <div class="mb-3">
-                        <label for="service" class="form-label">Servicio</label>
+                        <label for="service" class="form-label">Servicio <span class="text-danger">*</span></label>
                         <select class="form-control" id="service" name="service" required>
                             <option value="">Seleccione un servicio...</option>
                             <option value="Baño y Perfume">Baño y Perfume</option>
@@ -32,13 +32,49 @@
                             <option value="Limpieza de Oídos">Limpieza de Oídos</option>
                             <option value="Corte de Uñas">Corte de Uñas</option>
                             <option value="Spa Completo">Spa Completo</option>
+                            <!-- Criterio 2: servicio médico que activa las constantes vitales -->
+                            <option value="Consulta Médica">🩺 Consulta Médica</option>
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label for="appointment_date" class="form-label">Fecha y Hora</label>
+                        <label for="appointment_date" class="form-label">Fecha y Hora <span class="text-danger">*</span></label>
                         <input type="datetime-local" class="form-control" id="appointment_date"
                                name="appointment_date" required>
                     </div>
+
+                    <!-- ── Constantes Vitales (solo visibles en Consulta Médica) ── -->
+                    <div id="vitals-section" style="display:none;">
+                        <hr>
+                        <h6 class="text-secondary mb-3">
+                            🩺 Constantes Vitales
+                            <span class="badge bg-danger ms-1" style="font-size:0.7rem;">Requerido en consultas</span>
+                        </h6>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label for="weight_kg" class="form-label">
+                                    Peso (kg) <span class="text-danger" id="weight-asterisk">*</span>
+                                </label>
+                                <input type="number" class="form-control" id="weight_kg"
+                                       name="weight_kg" min="0" step="0.1" placeholder="Ej: 8.5">
+                            </div>
+                            <div class="col-sm-6 mb-3">
+                                <label for="temperature_c" class="form-label">
+                                    Temperatura (°C) <span class="text-danger" id="temp-asterisk">*</span>
+                                </label>
+                                <input type="number" class="form-control" id="temperature_c"
+                                       name="temperature_c" min="30" max="45" step="0.1" placeholder="Ej: 38.5">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="diagnosis" class="form-label">
+                                Diagnóstico <span class="text-danger" id="diag-asterisk">*</span>
+                            </label>
+                            <textarea class="form-control" id="diagnosis" name="diagnosis"
+                                      rows="3" placeholder="Describa el diagnóstico clínico..."></textarea>
+                        </div>
+                    </div>
+                    <!-- ──────────────────────────────────────────────────────────── -->
+
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary" <%= pets.length === 0 ? 'disabled' : '' %>>
                             Programar Cita
@@ -50,3 +86,32 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Criterio 2: mostrar/ocultar constantes vitales y activar/desactivar `required`
+    // según si el servicio seleccionado es "Consulta Médica"
+    (function () {
+        const serviceSelect  = document.getElementById('service');
+        const vitalsSection  = document.getElementById('vitals-section');
+        const weightInput    = document.getElementById('weight_kg');
+        const tempInput      = document.getElementById('temperature_c');
+        const diagInput      = document.getElementById('diagnosis');
+        const MEDICAL        = 'Consulta Médica';
+
+        function toggleVitals() {
+            const isMedical = serviceSelect.value === MEDICAL;
+
+            // Mostrar u ocultar el bloque completo
+            vitalsSection.style.display = isMedical ? 'block' : 'none';
+
+            // Activar / desactivar `required` para que el navegador valide solo en consultas
+            weightInput.required = isMedical;
+            tempInput.required   = isMedical;
+            diagInput.required   = isMedical;
+        }
+
+        // Ejecutar al cargar la página y cada vez que cambie el servicio
+        serviceSelect.addEventListener('change', toggleVitals);
+        toggleVitals();
+    })();
+</script>

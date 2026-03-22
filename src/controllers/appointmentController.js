@@ -34,9 +34,27 @@ exports.getCreateForm = (req, res) => {
 
 // POST /create — crear cita
 exports.createAppointment = (req, res) => {
-    const { pet_id, service, appointment_date } = req.body;
-    const sql = 'INSERT INTO appointments (pet_id, service, appointment_date) VALUES (?, ?, ?)';
-    db.run(sql, [pet_id, service, appointment_date], function (err) {
+    const { pet_id, service, appointment_date, weight_kg, temperature_c, diagnosis } = req.body;
+
+    // Criterio 2: constantes vitales son obligatorias solo en Consulta Médica
+    if (service === 'Consulta Médica') {
+        if (!weight_kg || !temperature_c || !diagnosis || diagnosis.trim() === '') {
+            return res.status(400).send(
+                'Para una Consulta Médica, Peso, Temperatura y Diagnóstico son obligatorios.'
+            );
+        }
+    }
+
+    // Para servicios no médicos, las constantes vitales quedan como NULL
+    const sql = `INSERT INTO appointments
+        (pet_id, service, appointment_date, weight_kg, temperature_c, diagnosis)
+        VALUES (?, ?, ?, ?, ?, ?)`;
+
+    const vitals = service === 'Consulta Médica'
+        ? [parseFloat(weight_kg), parseFloat(temperature_c), diagnosis.trim()]
+        : [null, null, null];
+
+    db.run(sql, [pet_id, service, appointment_date, ...vitals], function (err) {
         if (err) return res.status(500).send(err.message);
         res.redirect('/');
     });

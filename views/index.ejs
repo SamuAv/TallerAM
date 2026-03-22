@@ -26,6 +26,27 @@
                         <p class="card-text mb-1"><strong>Servicio:</strong> <%= app.service %></p>
                         <p class="card-text mb-3"><strong>Fecha:</strong> <%= app.appointment_date %></p>
 
+                        <% if (app.weight_kg || app.temperature_c || app.diagnosis) { %>
+                            <div class="border-top pt-2 mb-3">
+                                <p class="text-secondary fw-semibold mb-1" style="font-size:0.85rem;">🩺 Constantes Vitales</p>
+                                <% if (app.weight_kg) { %>
+                                    <p class="card-text mb-1" style="font-size:0.9rem;">
+                                        <strong>Peso:</strong> <%= app.weight_kg %> kg
+                                    </p>
+                                <% } %>
+                                <% if (app.temperature_c) { %>
+                                    <p class="card-text mb-1" style="font-size:0.9rem;">
+                                        <strong>Temperatura:</strong> <%= app.temperature_c %> °C
+                                    </p>
+                                <% } %>
+                                <% if (app.diagnosis) { %>
+                                    <p class="card-text mb-1" style="font-size:0.9rem;">
+                                        <strong>Diagnóstico:</strong> <%= app.diagnosis %>
+                                    </p>
+                                <% } %>
+                            </div>
+                        <% } %>
+
                         <form action="/delete/<%= app.id %>" method="POST"
                             onsubmit="return confirm('¿Eliminar esta cita?')">
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>

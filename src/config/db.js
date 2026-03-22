@@ -24,12 +24,16 @@ db.serialize(() => {
 
     // ─── Tabla de Citas ──────────────────────────────────────────────────────
     // pet_id referencia a pets.id en lugar de repetir pet_name / owner_name
+    // weight_kg, temperature_c y diagnosis son obligatorios solo en Consulta Médica
     db.run(`CREATE TABLE appointments (
         id               INTEGER PRIMARY KEY AUTOINCREMENT,
         pet_id           INTEGER NOT NULL REFERENCES pets(id),
         service          TEXT    NOT NULL,
         appointment_date TEXT    NOT NULL,
         status           TEXT    DEFAULT 'Programada',
+        weight_kg        REAL,
+        temperature_c    REAL,
+        diagnosis        TEXT,
         created_at       DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
 
