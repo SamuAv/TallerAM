@@ -65,7 +65,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
                         <a class="nav-link" href="/">🗓️ Citas</a>
                     </li>
@@ -74,6 +74,30 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/pets">🐶 Mascotas</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <% if (locals.user) { %>
+                            <!-- Usuario autenticado: mostrar nombre, rol y botón de logout -->
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge"
+                                    style="background:<%= locals.user.role === 'doctor' ? '#00b894' : '#6c5ce7' %>;
+                                           border-radius:8px; padding:6px 10px; font-size:0.78rem;">
+                                    <%= locals.user.role === 'doctor' ? '🩺' : '🔧' %>
+                                    <%= locals.user.displayName %>
+                                </span>
+                                <form action="/logout" method="POST" class="d-inline m-0">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                            style="border-radius:8px; font-size:0.82rem;">
+                                        Salir
+                                    </button>
+                                </form>
+                            </div>
+                        <% } else { %>
+                            <!-- Sin sesión: enlace a login -->
+                            <a href="/login" class="btn btn-sm btn-primary" style="border-radius:8px;">
+                                Iniciar Sesión
+                            </a>
+                        <% } %>
                     </li>
                 </ul>
             </div>

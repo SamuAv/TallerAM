@@ -47,10 +47,15 @@
                             </div>
                         <% } %>
 
-                        <form action="/delete/<%= app.id %>" method="POST"
-                            onsubmit="return confirm('¿Eliminar esta cita?')">
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                        </form>
+                        <% if (locals.user) { %>
+                            <form action="/delete/<%= app.id %>" method="POST" class="delete-form">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
+                        <% } else { %>
+                            <p class="text-muted mb-0" style="font-size:0.8rem;">
+                                🔒 <a href="/login">Inicia sesión</a> para eliminar
+                            </p>
+                        <% } %>
                     </div>
                 </div>
             </div>

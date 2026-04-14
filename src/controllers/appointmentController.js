@@ -62,7 +62,7 @@ exports.createAppointment = (req, res) => {
 
 // POST /delete/:id — eliminar cita
 exports.deleteAppointment = (req, res) => {
-    db.run('DELETE FROM appointments WHERE id = ?', req.params.id, function (err) {
+    db.run('DELETE FROM appointments WHERE id = ?', [req.params.id], function (err) {
         if (err) return res.status(500).send(err.message);
         res.redirect('/');
     });

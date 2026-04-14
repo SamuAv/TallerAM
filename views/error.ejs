@@ -1,0 +1,23 @@
+<div class="row justify-content-center" style="margin-top: 60px;">
+    <div class="col-md-6 col-lg-5 text-center">
+        <div class="card" style="border-radius:20px; box-shadow: 0 20px 60px rgba(214,48,49,0.12);">
+            <div class="card-body p-5">
+                <div style="font-size:4rem; line-height:1;">🚫</div>
+                <h1 class="h3 mt-3 fw-semibold text-danger"><%= title %></h1>
+                <p class="text-muted mt-2"><%= message %></p>
+                <hr>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="/" class="btn btn-outline-secondary">
+                        ← Volver al inicio
+                    </a>
+                    <% if (locals.user) { %>
+                        <span class="align-self-center text-muted" style="font-size:0.85rem;">
+                            Conectado como: <strong><%= locals.user.displayName %></strong>
+                            (<%= locals.user.role %>)
+                        </span>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
